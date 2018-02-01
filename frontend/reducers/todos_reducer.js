@@ -4,7 +4,21 @@ import { RECEIVE_TODOS,
   TODO_ERROR } from '../actions/todo_actions';
 import merge from 'lodash/merge';
 
-const todosReducer = (state = {}, action) => {
+const initial_state = {
+    1: {
+      id: 1,
+      title: 'wash car',
+      body: 'with soap',
+      done: false
+    },
+    2: {
+      id: 2,
+      title: 'wash dog',
+      body: 'with shampoo',
+      done: true
+}};
+
+const todosReducer = (state = initial_state, action) => {
   Object.freeze(state);
   let nextState;
 
