@@ -45241,31 +45241,27 @@ var TodoInput = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _Card.Card,
-        null,
+        'form',
+        { className: 'todo-form', onSubmit: this.handleSubmit },
         _react2.default.createElement(
-          'form',
-          { className: 'todo-form', onSubmit: this.handleSubmit },
+          'ul',
+          { 'class': 'formlist' },
           _react2.default.createElement(
-            'label',
+            'li',
             null,
-            'Task:',
             _react2.default.createElement(_TextField2.default, { ref: 'title', value: this.state.title, onChange: this.update('title'), hintText: 'Task', required: true })
           ),
           _react2.default.createElement(
-            'label',
+            'li',
             null,
-            'Due Date:',
-            _react2.default.createElement(_DatePicker2.default, { hintText: 'Portrait Dialog', value: this.state.date, onChange: this.handleDateChange })
+            _react2.default.createElement(_DatePicker2.default, { hintText: 'Due Date', value: this.state.date, onChange: this.handleDateChange })
           ),
           _react2.default.createElement(
-            'label',
+            'li',
             null,
-            'Body:',
             _react2.default.createElement(_TextField2.default, {
               hintText: 'Body',
               ref: 'body',
-              floatingLabelText: 'Task Body',
               onChange: this.update('body'),
               value: this.state.body,
               multiLine: true,
@@ -45273,7 +45269,11 @@ var TodoInput = function (_React$Component) {
               required: true
             })
           ),
-          _react2.default.createElement(_RaisedButton2.default, { raised: true, color: 'secondary', type: 'submit', label: 'Create Task' })
+          _react2.default.createElement(
+            'li',
+            { 'class': 'create' },
+            _react2.default.createElement(_RaisedButton2.default, { raised: true, color: 'secondary', type: 'submit', label: 'Create Task' })
+          )
         )
       );
     }

@@ -40,7 +40,15 @@ body {
 
 .todo-form {
   margin: 10px;
+  text-align: center;
 }
 
+.formlist {
+  list-style: none;
+}
+
+.create {
+  margin-top: 15px;
+}
 
 
