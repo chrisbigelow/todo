@@ -1,14 +1,14 @@
-todo/node_modules/
-todo/bundle.js
-todo/bundle.js.map
+/todo/node_modules/
+/todo/bundle.js
+/todo/bundle.js.map
 
-todo/log/*
-todo/tmp/*
+/todo/log/*
+/todo/tmp/*
 !/log/.keep
 !/tmp/.keep
 
-todo/node_modules
-todo/yarn-error.log
+/todo/node_modules
+/todo/yarn-error.log
 
 .byebug_history
 
