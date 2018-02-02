@@ -1,4 +1,4 @@
-class Api::SubtasksControllerController < ApplicationController
+class Api::SubtasksController < ApplicationController
   def create
     subtask = Subtask.new(subtask_params)
 
@@ -10,13 +10,23 @@ class Api::SubtasksControllerController < ApplicationController
   end
 
   def index
-    subtasks = Task.find(params[:todo_id]).subtasks
+    subtasks = Task.find(params[:task_id]).subtasks
     render json: subtasks
   end
 
   def destroy
     subtask = Subtask.find(params[:id]).destroy
     render json: subtask
+  end
+
+  def update
+    s = Subtask.find(params[:id])
+    if s
+      s.update(subtask_params)
+      render json: s
+    else
+      render json: { message: 'not found', status: 404 }
+    end
   end
 
   private

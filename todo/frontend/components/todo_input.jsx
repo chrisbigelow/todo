@@ -1,5 +1,7 @@
 import { uniqueId } from '../util/id_generator';
 import React from 'react';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import { withStyles } from 'material-ui/styles';
 
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
@@ -15,9 +17,7 @@ class TodoInput extends React.Component {
       title: "",
       body: "",
       date:  null,
-      done: false,
-      children: [],
-      parent: null
+      done: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,19 +38,18 @@ class TodoInput extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const todo = Object.assign({}, this.state, { id: uniqueId() });
-    this.props.receiveChildTodo(todo, parent);
-    this.setState({
-      title: "",
-      body: "",
-      date: null,
-      children: [],
-      parent: null
-    }); 
+    const todo = Object.assign({}, this.state);
+    this.props.createTodo({ todo }).then(
+      () => this.setState({
+        title: "",
+        body: ""
+      })
+    );
   }
 
   render() {
     return (
+      <Card>
       <form className="todo-form" onSubmit={this.handleSubmit}>
         <label>Task:
           <TextField ref="title" value={this.state.title} onChange={this.update('title')} hintText="Task" required />
@@ -70,8 +69,9 @@ class TodoInput extends React.Component {
             required
           />
         </label>
-        <RaisedButton type="submit" label="Create Task"/>
+        <RaisedButton raised color="secondary" type="submit" label="Create Task"/>
       </form>
+      </Card>
     );
   }
 

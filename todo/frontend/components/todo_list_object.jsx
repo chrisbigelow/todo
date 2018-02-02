@@ -3,6 +3,8 @@ import React from 'react';
 import TodoDrillContainer from './todo_drill_container';
 import merge from 'lodash/merge';
 import Checkbox from 'material-ui/Checkbox';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 class TodoListObject extends React.Component {
 
@@ -15,13 +17,10 @@ class TodoListObject extends React.Component {
 
   selectTodo(e) {
     e.preventDefault();
-    const selectedTodo = merge(
-      {},
-      this.props.todo,
-      { done: !this.props.todo.done }
-    );
-
-     this.props.receiveTodo(selectedTodo);
+    const toggledTodo = merge({}, this.props.todo, {
+       done: !this.props.todo.done
+     });
+     this.props.updateTodo(toggledTodo);
   }
 
   toggleDetail(e) {
@@ -31,26 +30,37 @@ class TodoListObject extends React.Component {
 
   render() {
 
-    const { todo } = this.props;
+    const { todo, updateTodo, deleteTodo } = this.props;
     const { title, done } = todo;
-    let drilled;
-    if (this.state.detail) {
-      drilled  = <TodoDrillContainer todo={ todo } />;
-    }
+    
+    let drilled  = <TodoDrillContainer todo={ todo } />;
 
     return(
 
 
 
-      <li>
-        <div className="header-task">
-          <h3><a onClick={ this.toggleDetail }>{ title }</a></h3>
+      <li class="task-item">
+        <Card>
+          {/* <div className="header-task">
+            <h3><a onClick={ this.toggleDetail }>{ title }</a></h3>
+          </div> */}
+        <CardHeader
+         title={title}
+         expanded= {this.state.detail}
+         actAsExpander={true}
+         showExpandableButton={true}
+         onExpandChange={ this.toggleDetail }
+        />
+        <CardActions>
           <Checkbox
-            checked={done}
-            onCheck={this.selectTodo.bind(this)}
-          />
-        </div>
-        { drilled }
+              checked={done}
+              onCheck={this.selectTodo.bind(this)}
+            />
+        </CardActions>
+        <CardText expandable={ true } >
+          { drilled }
+        </CardText>
+        </Card>
       </li>
 
     );

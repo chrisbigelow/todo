@@ -5,27 +5,27 @@ import { RECEIVE_TODOS,
   RECEIVE_CHILD_TODO } from '../actions/todo_actions';
 import merge from 'lodash/merge';
 
-const initial_state = {
-    1: {
-      id: 1,
-      title: 'wash car',
-      body: 'with soap',
-      date: null,
-      done: false,
-      children: [3],
-      parent: null
-    },
-    2: {
-      id: 2,
-      title: 'wash dog',
-      body: 'with shampoo',
-      date: null,
-      done: true,
-      children: [],
-      parent: null
-}};
+// const initial_state = {
+//     1: {
+//       id: 1,
+//       title: 'wash car',
+//       body: 'with soap',
+//       date: null,
+//       done: false,
+//       children: [3],
+//       parent: null
+//     },
+//     2: {
+//       id: 2,
+//       title: 'wash dog',
+//       body: 'with shampoo',
+//       date: null,
+//       done: true,
+//       children: [],
+//       parent: null
+// }};
 
-const todosReducer = (state = initial_state, action) => {
+const todosReducer = (state = {}, action) => {
   Object.freeze(state);
   let nextState;
 

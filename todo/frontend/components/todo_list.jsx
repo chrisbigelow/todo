@@ -4,15 +4,21 @@ import TodoInput from './todo_input';
 
 class TodoList extends React.Component {
 
+  componentDidMount() {
+    this.props.requestTodos();
+  }
+
   render() {
 
-    const { todos, receiveTodo } = this.props;
+    const { todos, createTodo, errors, deleteTodo, updateTodo } = this.props;
 
     const todoItems = todos.map(todo => (
         <TodoListObject
           key={`todo-list-object${todo.id}`}
           todo={todo}
-          receiveTodo={ receiveTodo } />
+          deleteTodo={ deleteTodo }
+          updateTodo= { updateTodo }
+           />
       )
     );
 
@@ -21,7 +27,7 @@ class TodoList extends React.Component {
         <ul className="todo-list">
           { todoItems }
         </ul>
-        <TodoInput receiveTodo={ receiveTodo }/>
+        <TodoInput createTodo={ createTodo }/>
       </div>
     );
   }

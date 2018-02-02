@@ -8,7 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 
 
-class TodoInputChild extends React.Component {
+class SubtaskForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,8 +16,7 @@ class TodoInputChild extends React.Component {
       body: "",
       date:  null,
       done: false,
-      children: [],
-      parent: this.props.todo
+      task_id: this.props.todo_id
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,15 +37,14 @@ class TodoInputChild extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const todo = Object.assign({}, this.state, { id: uniqueId() });
-    this.props.receiveTodo(todo);
-    this.setState({
-      title: "",
-      body: "",
-      date: null,
-      children: [],
-      parent: this.props.todo
-    }); 
+    const sub = Object.assign({}, this.state);
+
+    this.props.createSubtask(this.props.todo_id, sub).then(
+      this.setState({
+        title: "",
+        body: ""
+      }) // reset form
+    );
   }
 
   render() {
@@ -70,7 +68,7 @@ class TodoInputChild extends React.Component {
             required
           />
         </label>
-        <RaisedButton type="submit" label="Create Task"/>
+        <RaisedButton type="submit" label="Create SubTask"/>
       </form>
     );
   }
@@ -78,4 +76,4 @@ class TodoInputChild extends React.Component {
 
 }
 
-export default TodoInputChild;
+export default SubtaskForm;

@@ -13,3 +13,34 @@
  *= require_tree .
  *= require_self
  */
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #d5fff8;
+}
+
+#content {
+  padding: 10px;
+  margin: auto;
+  width: 50%;
+}
+
+.title {
+  text-align: center;
+}
+
+.todo-list {
+  list-style: none;
+}
+
+.task-item {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.todo-form {
+  margin: 10px;
+}
+
+
+

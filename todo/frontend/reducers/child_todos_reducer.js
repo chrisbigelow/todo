@@ -1,18 +1,18 @@
 import { RECEIVE_CHILD_TODO, RECEIVE_CHILD_TODOS,REMOVE_CHILD_TODO,TODO_CHILD_ERROR } from '../actions/child_todo_actions';
 import merge from 'lodash/merge';
 
-const initial_state = {
-    id: 3,
-    title: 'child',
-    body: 'i am a child',
-    date: null,
-    done: true,
-    children: [],
-    parent: 1,
-};
+// const initial_state = {
+//     id: 3,
+//     title: 'child',
+//     body: 'i am a child',
+//     date: null,
+//     done: true,
+//     children: [],
+//     parent: 1,
+// };
 
 
-const childTodosReducer = (state = initial_state, action) => {
+const childTodosReducer = (state = {}, action) => {
   Object.freeze(state);
   let nextState;
 

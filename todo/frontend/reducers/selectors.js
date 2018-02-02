@@ -8,17 +8,15 @@ export const allTodos = ( state ) => {
       return state.todos[key];
   });
 
-  return compact(rt_array);
+  return rt_array;
 };
 
-// export const getChildren = ( state, parent ) => {
-//   let keys = Object.keys(state.todos);
+export const subtasksByTodoId = ({ childTodos }, todo_id) => {
+  const subsByTodoId = [];
+  Object.keys(childTodos).forEach(stepId => {
+    const step = childTodos[stepId];
+    if (childTodos[stepId].task_id === todo_id) subsByTodoId.push(step)
+  });
+  return subsByTodoId;
+};
 
-//   let child_array = keys.map((key) => {
-//     if (state.todos[key].parent.id == parent.id) {
-//       return state.todos[key];
-//     }
-//   });
-
-//   return compact(child_array);
-// };

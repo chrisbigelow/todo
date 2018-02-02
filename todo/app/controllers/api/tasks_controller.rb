@@ -1,4 +1,4 @@
-class Api::TasksControllerController < ApplicationController
+class Api::TasksController < ApplicationController
   def index
     render json: Task.all
   end
@@ -8,7 +8,7 @@ class Api::TasksControllerController < ApplicationController
   end
 
   def create
-    @task = task.new(task_params)
+    @task = Task.new(task_params)
     if @task.save
       render json: @task
     else
@@ -17,10 +17,20 @@ class Api::TasksControllerController < ApplicationController
   end
 
   def destroy
-    @task = tasks.find(params[:id])
+    @task = Task.find(params[:id])
     @task.destroy
     render json: @task
   end
+
+  def update
+    @task = Task.find(params[:id])
+    if @task.update(task_params)
+      render json: @task
+    else
+      render json: @task.errors.full_messages, status: 422
+    end
+  end
+
 
   private
 
