@@ -12,7 +12,18 @@ class SubtaskListItem extends React.Component {
     const toggledStep = merge({}, this.props.subtask, {
       done: !this.props.subtask.done
     });
+    const toggledTask = merge({}, this.props.todo, {
+      done: !this.props.todo.done
+    });
     this.props.updateSubtask(toggledStep);
+
+    function isTrue(currentValue) {
+      return currentValue.done;
+    }
+
+    if (this.props.subtasks.some(isTrue)) {
+      this.props.updateTodo(toggledTask);
+    }
   }
 
   render() {

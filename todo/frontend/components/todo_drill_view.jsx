@@ -19,7 +19,7 @@ class TodoDrillView extends React.Component {
         <br />
         <div>
         <h3>Subtasks</h3>
-        <SubtaskListContainer todo_id={todo.id} />
+        <SubtaskListContainer todo={todo} todo_id={todo.id} />
         {/* <TodoInputChild createSubtask={ createSubtask } todo={todo}/> */}
         </div>
       </div>

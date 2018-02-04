@@ -4,11 +4,14 @@ import React from 'react';
 import SubtaskListItemContainer from './subtask_list_item_container';
 import SubtaskForm from './subtask_form';
 
-const SubtaskList = ({ subtasks, todo_id, createSubtask }) => {
+const SubtaskList = ({ subtasks, todo_id, createSubtask, todo }) => {
   const subtaskItems = subtasks.map(subtask => (
     <SubtaskListItemContainer
       key={subtask.id}
-      subtask={subtask} />
+      subtasks={subtasks}
+      subtask={subtask}
+      todo={todo}
+       />
   ));
 
   let form;

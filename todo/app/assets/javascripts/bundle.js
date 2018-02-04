@@ -34678,6 +34678,8 @@ var _todo_actions = __webpack_require__(66);
 
 var _selectors = __webpack_require__(153);
 
+var _child_todo_actions = __webpack_require__(120);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -34700,6 +34702,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     updateTodo: function updateTodo(todo) {
       return dispatch((0, _todo_actions.updateTodo)(todo));
+    },
+    requestSubtasks: function requestSubtasks(todo) {
+      return dispatch((0, _child_todo_actions.requestSubtasks)(todo.id));
     }
   };
 };
@@ -35068,7 +35073,7 @@ var TodoDrillView = function (_React$Component) {
             null,
             'Subtasks'
           ),
-          _react2.default.createElement(_subtask_list_container2.default, { todo_id: todo.id })
+          _react2.default.createElement(_subtask_list_container2.default, { todo: todo, todo_id: todo.id })
         )
       );
     }
@@ -45533,10 +45538,12 @@ var _child_todo_actions = __webpack_require__(120);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state, _ref) {
-  var todo_id = _ref.todo_id;
+  var todo_id = _ref.todo_id,
+      todo = _ref.todo;
   return {
     subtasks: (0, _selectors.subtasksByTodoId)(state, todo_id),
-    todo_id: todo_id
+    todo_id: todo_id,
+    todo: todo
   };
 };
 
@@ -45578,12 +45585,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var SubtaskList = function SubtaskList(_ref) {
   var subtasks = _ref.subtasks,
       todo_id = _ref.todo_id,
-      createSubtask = _ref.createSubtask;
+      createSubtask = _ref.createSubtask,
+      todo = _ref.todo;
 
   var subtaskItems = subtasks.map(function (subtask) {
     return _react2.default.createElement(_subtask_list_item_container2.default, {
       key: subtask.id,
-      subtask: subtask });
+      subtasks: subtasks,
+      subtask: subtask,
+      todo: todo
+    });
   });
 
   var form = void 0;
@@ -45625,8 +45636,11 @@ var _subtask_list_item2 = _interopRequireDefault(_subtask_list_item);
 
 var _child_todo_actions = __webpack_require__(120);
 
+var _todo_actions = __webpack_require__(66);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Actions
 var mapDispatchToProps = function mapDispatchToProps(dispatch, _ref) {
   var subtask = _ref.subtask;
   return {
@@ -45635,12 +45649,14 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, _ref) {
     },
     updateSubtask: function updateSubtask(updatedSubtask) {
       return dispatch((0, _child_todo_actions.updateSubtask)(updatedSubtask));
+    },
+    updateTodo: function updateTodo(t) {
+      return dispatch((0, _todo_actions.updateTodo)(t));
     }
   };
 };
-// Actions
-exports.default = (0, _reactRedux.connect)(null, // step prop is already passed in
-mapDispatchToProps)(_subtask_list_item2.default);
+
+exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(_subtask_list_item2.default);
 
 /***/ }),
 /* 416 */
@@ -45693,7 +45709,18 @@ var SubtaskListItem = function (_React$Component) {
       var toggledStep = (0, _merge2.default)({}, this.props.subtask, {
         done: !this.props.subtask.done
       });
+      var toggledTask = (0, _merge2.default)({}, this.props.todo, {
+        done: !this.props.todo.done
+      });
       this.props.updateSubtask(toggledStep);
+
+      function isTrue(currentValue) {
+        return currentValue.done;
+      }
+
+      if (this.props.subtasks.some(isTrue)) {
+        this.props.updateTodo(toggledTask);
+      }
     }
   }, {
     key: 'render',
