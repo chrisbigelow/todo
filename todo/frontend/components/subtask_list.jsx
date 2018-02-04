@@ -10,15 +10,21 @@ const SubtaskList = ({ subtasks, todo_id, createSubtask }) => {
       key={subtask.id}
       subtask={subtask} />
   ));
-  
+
+  let form;
+
+  if (subtaskItems.length < 2) {
+    form = <SubtaskForm todo_id={ todo_id } createSubtask={ createSubtask } />;
+  }
+
   return (
     <div>
       <ul className="subtask-list">
         { subtaskItems }
       </ul>
-      <SubtaskForm todo_id={ todo_id } createSubtask={ createSubtask } />
+      { form }
     </div>
-  )
+  );
 };
 
 export default SubtaskList;

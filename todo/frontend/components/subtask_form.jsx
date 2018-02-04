@@ -50,25 +50,20 @@ class SubtaskForm extends React.Component {
   render() {
     return (
       <form className="todo-form" onSubmit={this.handleSubmit}>
-        <label>Task:
-          <TextField ref="title" value={this.state.title} onChange={this.update('title')} hintText="Task" required />
-        </label>
-        <label>Due Date:
-          <DatePicker hintText="Portrait Dialog" value={this.state.date} onChange={this.handleDateChange}/>
-        </label>
-        <label>Body:
-          <TextField
+      <ul className="todo-list">
+        <li><TextField ref="title" value={this.state.title} onChange={this.update('title')} hintText="Task" required /></li>
+        <li><DatePicker hintText="Portrait Dialog" value={this.state.date} onChange={this.handleDateChange}/></li>
+         <li><TextField
             hintText="Body"
             ref="body"
-            floatingLabelText="Task Body"
             onChange={this.update('body')}
             value={this.state.body}
             multiLine={true}
             rows={3}
             required
-          />
-        </label>
-        <RaisedButton type="submit" label="Create SubTask"/>
+          /></li>
+        <li><RaisedButton type="submit" label="Create SubTask"/></li>
+      </ul>
       </form>
     );
   }

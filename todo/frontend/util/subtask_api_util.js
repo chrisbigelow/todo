@@ -13,7 +13,7 @@ export const fetchSubtasks = task_id => (
    })
  );
  
- export const destroySubtask= subtask => (
+ export const destroySubtask = subtask => (
  $.ajax({
      method: 'DELETE',
      url: `/api/subtasks/${subtask.id}`

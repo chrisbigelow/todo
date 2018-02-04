@@ -9,7 +9,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 const App = () => (
   <MuiThemeProvider>
     <div className="app">
-      <h1 class="title">Chris Bigelow's Todo List</h1>
+      <h1 className="title">Chris Bigelow's Todo List</h1>
       <TodoListContainer />
     </div>
   </MuiThemeProvider> 

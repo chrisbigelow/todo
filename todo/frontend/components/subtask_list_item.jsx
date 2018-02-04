@@ -1,5 +1,6 @@
 import React from 'react';
 import merge from 'lodash/merge';
+import Checkbox from 'material-ui/Checkbox';
 
 class SubtaskListItem extends React.Component {
   constructor(props) {
@@ -18,15 +19,10 @@ class SubtaskListItem extends React.Component {
     return (
       <li className="subtask-header">
         <div className="subtask-info">
-          <h3>{this.props.subtask.title}</h3>
+          <h3>{this.props.subtask.title} <Checkbox checked={this.props.subtask.done} onCheck={this.toggleStep}/></h3>
           <p>{this.props.subtask.body}</p>
         </div>
         <div className="subtask-buttons">
-          <button
-            className={this.props.subtask.done ? "done" : "undone"}
-            onClick={this.toggleStep}>
-            {this.props.subtask.done ? "Undo" : "Done"}
-          </button>
           <button
             className="delete-button"
             onClick={this.props.destroySubtask}>

@@ -50,7 +50,7 @@ class TodoInput extends React.Component {
   render() {
     return (
       <form className="todo-form" onSubmit={this.handleSubmit}>
-        <ul class="formlist">
+        <ul className="formlist">
           <li>
             <TextField ref="title" value={this.state.title} onChange={this.update('title')} hintText="Task" required />
           </li>
@@ -68,8 +68,8 @@ class TodoInput extends React.Component {
               required
             />
           </li>
-          <li class="create">
-          <RaisedButton raised color="secondary" type="submit" label="Create Task"/>
+          <li className="create">
+          <RaisedButton type="submit" label="Create Task"/>
           </li>
         </ul>
       </form>

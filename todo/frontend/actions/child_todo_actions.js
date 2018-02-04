@@ -36,6 +36,6 @@ export const destroySubtask = subtask => dispatch => (
 );
 
 export const updateSubtask = s => dispatch => (
-  SubtaskAPIUtil.updateStep(s)
+  SubtaskAPIUtil.updateSubtask(s)
   .then(st => dispatch(receiveChildTodo(st)))
 );

@@ -1,4 +1,5 @@
 class Api::TasksController < ApplicationController
+
   def index
     render json: Task.all
   end
@@ -31,10 +32,10 @@ class Api::TasksController < ApplicationController
     end
   end
 
-
   private
 
   def task_params
     params.require(:task).permit(:title, :body, :done, :date)
   end
+
 end

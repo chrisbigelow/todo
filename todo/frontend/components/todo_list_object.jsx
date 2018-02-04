@@ -5,6 +5,8 @@ import merge from 'lodash/merge';
 import Checkbox from 'material-ui/Checkbox';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import {red500} from 'material-ui/styles/colors';
 
 class TodoListObject extends React.Component {
 
@@ -30,37 +32,52 @@ class TodoListObject extends React.Component {
 
   render() {
 
-    const { todo, updateTodo, deleteTodo } = this.props;
-    const { title, done } = todo;
+    const { todo, updateTodo, destroyTodo } = this.props;
+    const { title, done, date } = todo;
     
     let drilled  = <TodoDrillContainer todo={ todo } />;
+    let dateTwo = new Date(date);
+
+    let card = 
+    <Card>
+    <CardHeader
+     title={title}
+     actAsExpander={true}
+     showExpandableButton={true}>
+     Due Date:{"\t" + dateTwo.toDateString()}
+    </CardHeader>
+    <CardActions>
+      <Checkbox checked={done} onCheck={this.selectTodo.bind(this)}/>
+    </CardActions>
+    <CardText expandable={ true } >
+      { drilled }
+    </CardText>
+    </Card>;
+
+
+    if (dateTwo.getTime() < Date.now()) {
+
+      card =
+      <Card>
+      <CardHeader
+       titleColor={red500}
+       title={title}
+       actAsExpander={true}
+       showExpandableButton={true}>
+       Due Date:{"\t" + dateTwo.toDateString()}
+      </CardHeader>
+      <CardActions>
+        <Checkbox checked={done} onCheck={this.selectTodo.bind(this)}/>
+      </CardActions>
+      <CardText expandable={ true } >
+        { drilled }
+      </CardText>
+      </Card>;
+    }
 
     return(
-
-
-
-      <li class="task-item">
-        <Card>
-          {/* <div className="header-task">
-            <h3><a onClick={ this.toggleDetail }>{ title }</a></h3>
-          </div> */}
-        <CardHeader
-         title={title}
-         expanded= {this.state.detail}
-         actAsExpander={true}
-         showExpandableButton={true}
-         onExpandChange={ this.toggleDetail }
-        />
-        <CardActions>
-          <Checkbox
-              checked={done}
-              onCheck={this.selectTodo.bind(this)}
-            />
-        </CardActions>
-        <CardText expandable={ true } >
-          { drilled }
-        </CardText>
-        </Card>
+      <li className="task-item">
+        { card }
       </li>
 
     );

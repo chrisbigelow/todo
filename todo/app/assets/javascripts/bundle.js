@@ -5615,7 +5615,7 @@ var destroySubtask = exports.destroySubtask = function destroySubtask(subtask) {
 
 var updateSubtask = exports.updateSubtask = function updateSubtask(s) {
   return function (dispatch) {
-    return SubtaskAPIUtil.updateStep(s).then(function (st) {
+    return SubtaskAPIUtil.updateSubtask(s).then(function (st) {
       return dispatch(receiveChildTodo(st));
     });
   };
@@ -28816,7 +28816,7 @@ var App = function App() {
       { className: 'app' },
       _react2.default.createElement(
         'h1',
-        { 'class': 'title' },
+        { className: 'title' },
         'Chris Bigelow\'s Todo List'
       ),
       _react2.default.createElement(_todo_list_container2.default, null)
@@ -34695,8 +34695,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     createTodo: function createTodo(todo) {
       return dispatch((0, _todo_actions.createTodo)(todo));
     },
-    deleteTodo: function deleteTodo(todo) {
-      return dispatch((0, _todo_actions.destroyTodo)(todo));
+    destroyTodo: function destroyTodo(todo) {
+      return dispatch((0, _todo_actions.deleteTodo)(todo));
     },
     updateTodo: function updateTodo(todo) {
       return dispatch((0, _todo_actions.updateTodo)(todo));
@@ -34760,7 +34760,7 @@ var TodoList = function (_React$Component) {
           todos = _props.todos,
           createTodo = _props.createTodo,
           errors = _props.errors,
-          deleteTodo = _props.deleteTodo,
+          destroyTodo = _props.destroyTodo,
           updateTodo = _props.updateTodo;
 
 
@@ -34768,7 +34768,7 @@ var TodoList = function (_React$Component) {
         return _react2.default.createElement(_todo_list_object2.default, {
           key: 'todo-list-object' + todo.id,
           todo: todo,
-          deleteTodo: deleteTodo,
+          destroyTodo: destroyTodo,
           updateTodo: updateTodo
         });
       });
@@ -34826,6 +34826,12 @@ var _FlatButton = __webpack_require__(366);
 
 var _FlatButton2 = _interopRequireDefault(_FlatButton);
 
+var _RaisedButton = __webpack_require__(93);
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+var _colors = __webpack_require__(90);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34871,40 +34877,71 @@ var TodoListObject = function (_React$Component) {
       var _props = this.props,
           todo = _props.todo,
           updateTodo = _props.updateTodo,
-          deleteTodo = _props.deleteTodo;
+          destroyTodo = _props.destroyTodo;
       var title = todo.title,
-          done = todo.done;
+          done = todo.done,
+          date = todo.date;
 
 
       var drilled = _react2.default.createElement(_todo_drill_container2.default, { todo: todo });
+      var dateTwo = new Date(date);
 
-      return _react2.default.createElement(
-        'li',
-        { 'class': 'task-item' },
+      var card = _react2.default.createElement(
+        _Card.Card,
+        null,
         _react2.default.createElement(
+          _Card.CardHeader,
+          {
+            title: title,
+            actAsExpander: true,
+            showExpandableButton: true },
+          'Due Date:',
+          "\t" + dateTwo.toDateString()
+        ),
+        _react2.default.createElement(
+          _Card.CardActions,
+          null,
+          _react2.default.createElement(_Checkbox2.default, { checked: done, onCheck: this.selectTodo.bind(this) })
+        ),
+        _react2.default.createElement(
+          _Card.CardText,
+          { expandable: true },
+          drilled
+        )
+      );
+
+      if (dateTwo.getTime() < Date.now()) {
+
+        card = _react2.default.createElement(
           _Card.Card,
           null,
-          _react2.default.createElement(_Card.CardHeader, {
-            title: title,
-            expanded: this.state.detail,
-            actAsExpander: true,
-            showExpandableButton: true,
-            onExpandChange: this.toggleDetail
-          }),
+          _react2.default.createElement(
+            _Card.CardHeader,
+            {
+              titleColor: _colors.red500,
+              title: title,
+              actAsExpander: true,
+              showExpandableButton: true },
+            'Due Date:',
+            "\t" + dateTwo.toDateString()
+          ),
           _react2.default.createElement(
             _Card.CardActions,
             null,
-            _react2.default.createElement(_Checkbox2.default, {
-              checked: done,
-              onCheck: this.selectTodo.bind(this)
-            })
+            _react2.default.createElement(_Checkbox2.default, { checked: done, onCheck: this.selectTodo.bind(this) })
           ),
           _react2.default.createElement(
             _Card.CardText,
             { expandable: true },
             drilled
           )
-        )
+        );
+      }
+
+      return _react2.default.createElement(
+        'li',
+        { className: 'task-item' },
+        card
       );
     }
   }]);
@@ -35020,8 +35057,19 @@ var TodoDrillView = function (_React$Component) {
           { className: 'todo-body' },
           todo.body
         ),
-        _react2.default.createElement(_RaisedButton2.default, { label: 'Delete', onClick: destroyTodo }),
-        _react2.default.createElement(_subtask_list_container2.default, { todo_id: todo.id })
+        _react2.default.createElement(_RaisedButton2.default, { label: 'Delete Main Task', onClick: destroyTodo }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Subtasks'
+          ),
+          _react2.default.createElement(_subtask_list_container2.default, { todo_id: todo.id })
+        )
       );
     }
   }]);
@@ -45245,7 +45293,7 @@ var TodoInput = function (_React$Component) {
         { className: 'todo-form', onSubmit: this.handleSubmit },
         _react2.default.createElement(
           'ul',
-          { 'class': 'formlist' },
+          { className: 'formlist' },
           _react2.default.createElement(
             'li',
             null,
@@ -45271,8 +45319,8 @@ var TodoInput = function (_React$Component) {
           ),
           _react2.default.createElement(
             'li',
-            { 'class': 'create' },
-            _react2.default.createElement(_RaisedButton2.default, { raised: true, color: 'secondary', type: 'submit', label: 'Create Task' })
+            { className: 'create' },
+            _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: 'Create Task' })
           )
         )
       );
@@ -45538,6 +45586,12 @@ var SubtaskList = function SubtaskList(_ref) {
       subtask: subtask });
   });
 
+  var form = void 0;
+
+  if (subtaskItems.length < 2) {
+    form = _react2.default.createElement(_subtask_form2.default, { todo_id: todo_id, createSubtask: createSubtask });
+  }
+
   return _react2.default.createElement(
     'div',
     null,
@@ -45546,7 +45600,7 @@ var SubtaskList = function SubtaskList(_ref) {
       { className: 'subtask-list' },
       subtaskItems
     ),
-    _react2.default.createElement(_subtask_form2.default, { todo_id: todo_id, createSubtask: createSubtask })
+    form
   );
 };
 
@@ -45574,13 +45628,13 @@ var _child_todo_actions = __webpack_require__(120);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch, _ref) {
-  var s = _ref.s;
+  var subtask = _ref.subtask;
   return {
-    destroyStep: function destroyStep() {
-      return dispatch((0, _child_todo_actions.destroySubtask)(s));
+    destroySubtask: function destroySubtask() {
+      return dispatch((0, _child_todo_actions.destroySubtask)(subtask));
     },
-    updateStep: function updateStep(updatedS) {
-      return dispatch((0, _child_todo_actions.updateSubtask)(updatedS));
+    updateSubtask: function updateSubtask(updatedSubtask) {
+      return dispatch((0, _child_todo_actions.updateSubtask)(updatedSubtask));
     }
   };
 };
@@ -45608,6 +45662,10 @@ var _react2 = _interopRequireDefault(_react);
 var _merge = __webpack_require__(67);
 
 var _merge2 = _interopRequireDefault(_merge);
+
+var _Checkbox = __webpack_require__(402);
+
+var _Checkbox2 = _interopRequireDefault(_Checkbox);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45649,7 +45707,9 @@ var SubtaskListItem = function (_React$Component) {
           _react2.default.createElement(
             'h3',
             null,
-            this.props.subtask.title
+            this.props.subtask.title,
+            ' ',
+            _react2.default.createElement(_Checkbox2.default, { checked: this.props.subtask.done, onCheck: this.toggleStep })
           ),
           _react2.default.createElement(
             'p',
@@ -45660,13 +45720,6 @@ var SubtaskListItem = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'subtask-buttons' },
-          _react2.default.createElement(
-            'button',
-            {
-              className: this.props.subtask.done ? "done" : "undone",
-              onClick: this.toggleStep },
-            this.props.subtask.done ? "Undo" : "Done"
-          ),
           _react2.default.createElement(
             'button',
             {
@@ -45781,33 +45834,37 @@ var SubtaskForm = function (_React$Component) {
         'form',
         { className: 'todo-form', onSubmit: this.handleSubmit },
         _react2.default.createElement(
-          'label',
-          null,
-          'Task:',
-          _react2.default.createElement(_TextField2.default, { ref: 'title', value: this.state.title, onChange: this.update('title'), hintText: 'Task', required: true })
-        ),
-        _react2.default.createElement(
-          'label',
-          null,
-          'Due Date:',
-          _react2.default.createElement(_DatePicker2.default, { hintText: 'Portrait Dialog', value: this.state.date, onChange: this.handleDateChange })
-        ),
-        _react2.default.createElement(
-          'label',
-          null,
-          'Body:',
-          _react2.default.createElement(_TextField2.default, {
-            hintText: 'Body',
-            ref: 'body',
-            floatingLabelText: 'Task Body',
-            onChange: this.update('body'),
-            value: this.state.body,
-            multiLine: true,
-            rows: 3,
-            required: true
-          })
-        ),
-        _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: 'Create SubTask' })
+          'ul',
+          { className: 'todo-list' },
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(_TextField2.default, { ref: 'title', value: this.state.title, onChange: this.update('title'), hintText: 'Task', required: true })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(_DatePicker2.default, { hintText: 'Portrait Dialog', value: this.state.date, onChange: this.handleDateChange })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(_TextField2.default, {
+              hintText: 'Body',
+              ref: 'body',
+              onChange: this.update('body'),
+              value: this.state.body,
+              multiLine: true,
+              rows: 3,
+              required: true
+            })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: 'Create SubTask' })
+          )
+        )
       );
     }
   }]);
