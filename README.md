@@ -1,5 +1,7 @@
 # todo
-Todo List Application w/ Rails (backend) and React/Redux (frontend)
+Todo List Application w/ Rails (backend) and React/Redux (frontend and state management)
+
+**LIVE LINK**: https://christodo.herokuapp.com/
 
 ## Requirements
 
